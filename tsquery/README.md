@@ -53,6 +53,51 @@ select queries_rejected_rate WHERE serviceName=IMPALA-1
 
 ### Impala Nodes
 
-TBD
+#### Looking at the memory reserved
+`impala_admission_controller_local_backend_mem_reserved` - The is the memory that impala has reserved
+
+Look at it by pool and by node in order to see if we are hotspotting on nodes or bottlenecking on pools
+
+#### Looking at the memory allocated to the pools
+`total_impala_admission_controller_pool_max_mem_resources` - This shows how much memory has been allocated to each of the pools
+
+### Yarn Metrics
+
+We focus on live metrics here to get an understanding of what is going on
+####
+Once all resources are allocated then there is no more to go around and new apps will hang and wait
+
+Allocated Resources:
+
+`allocated_containers` - Shows the currently allocated Yarn Containers. Different applications perform differently.
+Spark will release containers when not needed even if it has been set in the spark builder command. 
+
+`allocated_memory_mb` - Show the currently allocated memory.
 
 
+Available Resources:
+Inverse of the allocated resources
+
+`available_memory_mb` - Shows available memory
+
+`available_vcores` - shows available vcores
+
+####
+
+Check on waiting hive and spark containers:
+
+`pending_containers`
+
+
+#### Hardware level stats
+
+Host Level Stats (cpu);
+This includes host level stuff like os
+`select cpu_user_rate / getHostFact(numCores, 1) * 100, cpu_system_rate / getHostFact(numCores, 1) * 100, cpu_nice_rate / getHostFact(numCores, 1) * 100, cpu_iowait_rate / getHostFact(numCores, 1) * 100, cpu_irq_rate / getHostFact(numCores, 1) * 100, cpu_soft_irq_rate / getHostFact(numCores, 1) * 100, cpu_steal_rate / getHostFact(numCores, 1) * 100 where entityName=$HOSTID`
+
+can drop the `entityName`  to get everything
+
+Role level stats (cpu):
+This is just for cloudera components
+
+`select cpu_user_rate / getHostFact(numCores, 1) * 100, cpu_system_rate / getHostFact(numCores, 1) * 100 where category = role and hostId=$HOSTID`
