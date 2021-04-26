@@ -12,4 +12,11 @@ A set of potentially useful things to assist with cloudera manager ops tasks
 
 tsquery is the main way to interface with the metrics collected by Cloudera Manager for the purpose of tracking and monitoring the status of your cluster.
 
-## harvesting stats
+## Example Dashboards
+
+Example Impala Dashboard using some of the stats highlighted in tsquery doc
+![example_impala](images/example_impala.png)
+
+See: dashboards/Impala Test.json for the code
+
+

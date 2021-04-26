@@ -1,5 +1,6 @@
 # Useful tsquery
 
+Full list: https://docs.cloudera.com/documentation/enterprise/6/6.3/topics/cm_metrics_activity_monitor.html
 ## Tracking Impala
 
 Impala crash course:
@@ -101,3 +102,6 @@ Role level stats (cpu):
 This is just for cloudera components
 
 `select cpu_user_rate / getHostFact(numCores, 1) * 100, cpu_system_rate / getHostFact(numCores, 1) * 100 where category = role and hostId=$HOSTID`
+
+Hosts memory usage:
+`select swap_used, physical_memory_used, physical_memory_total, physical_memory_cached, physical_memory_buffers where entityName=$HOSTID`
